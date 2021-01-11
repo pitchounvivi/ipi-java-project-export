@@ -3,6 +3,11 @@ package com.example.demo.pourquoiinterface;
 import java.util.ArrayList;
 import java.util.List;
 
+interface Notification {
+
+    void notifierClient(Client client);
+}
+
 class Client {
 
 }
@@ -21,7 +26,6 @@ class ResteDuCode {
     }
 }
 
-
 class InscriptionService {
 
     List<Notification> notifications;
@@ -39,7 +43,6 @@ class InscriptionService {
         }
     }
 }
-
 
 public class PourquoiLesInterfaces {
     public static void main(String[] args) {
@@ -62,12 +65,6 @@ public class PourquoiLesInterfaces {
         //simulation d'une inscription
         resteDuCode.traitement();
     }
-}
-
-
-interface Notification {
-
-    void notifierClient(Client client);
 }
 
 class NotificationMail implements Notification {

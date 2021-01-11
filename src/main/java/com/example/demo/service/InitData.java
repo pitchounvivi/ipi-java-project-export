@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Article;
+import com.example.demo.entity.Client;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,16 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         Article a1 = createArticle("Chargeurs de téléphones Portables", 22.98, 9);
         Article a2 = createArticle("Playmobil Hydravion de Police", 14.39, 2);
         Article a3 = createArticle("Distributeur de croquettes pour chien", 12.99, 0);
+
+        Client cl1 = createClient("John", "Doe");
+    }
+
+    private Client createClient(String prenom, String nom) {
+        Client client = new Client();
+        client.setPrenom(prenom);
+        client.setNom(nom);
+        entityManager.persist(client);
+        return null;
     }
 
     private Article createArticle(String libelle, double prix, int stock) {

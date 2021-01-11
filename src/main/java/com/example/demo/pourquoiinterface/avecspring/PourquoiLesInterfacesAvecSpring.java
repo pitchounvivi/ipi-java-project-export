@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+interface Notification {
+
+    void notifierClient(Client client);
+}
+
 class Client {
 
 }
@@ -38,7 +43,6 @@ class InscriptionService {
     }
 }
 
-
 public class PourquoiLesInterfacesAvecSpring {
 
 
@@ -55,12 +59,6 @@ public class PourquoiLesInterfacesAvecSpring {
         //simulation d'une inscription
         resteDuCode.traitement();
     }
-}
-
-
-interface Notification {
-
-    void notifierClient(Client client);
 }
 
 @Component
