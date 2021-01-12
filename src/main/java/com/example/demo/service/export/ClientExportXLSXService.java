@@ -29,14 +29,16 @@ public class ClientExportXLSXService {
             //Créer une feuille vide et son titre
             Sheet listClient = wb.createSheet("Liste de client");
 
-            //Créer une ligne et mettre qq chose
+            //Créer une ligne et la positionner
             Row row = listClient.createRow(0);
 
-            //Créer une cellule et mettre qq chose
+            //Créer une cellule et la positionner
             Cell cell = row.createCell(0);
+            Cell cell1 = row.createCell(1);
 
             //Mettre une "vraie" valeure dans la cellule
             cell.setCellValue("test cellule!!!!!!!!!!!!!!!!!!!!!!!!");
+            cell1.setCellValue("autre test");
 
 
             //Forcer la taille automatique des colonnes
