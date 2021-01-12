@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -21,9 +23,12 @@ public class ClientExportCSVService {
 
 
         List<Client> listClients = clientRepository.findAll();
-        writer.println("nom;prenom;date;");
+        writer.println("nom;prenom;date;age");
         for(Client client:listClients){
-            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance());
+            //calcul de l'age
+            Integer age = Period.between(client.getDateNaissance(), LocalDate.now()).getYears();
+            
+            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+age);
         }
 
 
