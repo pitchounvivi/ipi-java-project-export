@@ -2,6 +2,7 @@ package com.example.demo.controller.export;
 
 import com.example.demo.service.export.ArticleExportCVSService;
 import com.example.demo.service.export.ArticleExportXLSXService;
+import com.example.demo.service.export.ClientExportCSVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,12 @@ public class ExportArticleController {
 
     @Autowired
     private ArticleExportXLSXService articleExportXLSXService;
+
+
+    @Autowired
+    private ClientExportCSVService clientExportCSVService;
+
+
 
     /**
      * Export des articles au format CSV.
@@ -53,5 +60,21 @@ public class ExportArticleController {
         response.setHeader("Content-Disposition", "attachment; filename=\"client-" + id + "-factures.xlsx\"");
         // TODO
     }
+
+
+
+    /**
+     * Export des clients au format CSV.
+     */
+    @GetMapping("/clients/csv")
+    public void clientCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=\"export-clients.csv\"");
+        PrintWriter writer = response.getWriter();
+        clientExportCSVService.export(writer);
+    }
+
+
+
 
 }

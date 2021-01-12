@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
+import org.springframework.data.convert.JodaTimeConverters;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +25,10 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     private Set<Facture> factures = new HashSet<>();
+
+    @Column
+    private LocalDate dateNaissance;
+
 
     public Long getId() {
         return id;
@@ -53,6 +60,14 @@ public class Client {
 
     public void setFactures(Set<Facture> factures) {
         this.factures = factures;
+    }
+
+    public LocalDate getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(LocalDate dateNaissance) {
+        this.dateNaissance = dateNaissance;
     }
 }
 
