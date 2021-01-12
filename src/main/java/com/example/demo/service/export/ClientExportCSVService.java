@@ -28,7 +28,7 @@ public class ClientExportCSVService {
             //calcul de l'age
             Integer age = Period.between(client.getDateNaissance(), LocalDate.now()).getYears();
 
-            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+age);
+            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+age + " ans");
         }
 
     }
