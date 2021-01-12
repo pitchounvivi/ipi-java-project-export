@@ -30,10 +30,11 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
 
     private void insertTestData() {
         Article a1 = createArticle("Chargeurs de téléphones Portables", 22.98, 9);
-        Article a2 = createArticle("Playmobil Hydravion de Police", 14.39, 2);
+        Article a2 = createArticle("Playmobil Hydravion ;de Police", 14.39, 2);
         Article a3 = createArticle("Distributeur de croquettes pour chien", 12.99, 0);
 
         Client cl1 = createClient("John", "Doe", LocalDate.parse("2000-08-02"));
+        Client cl2 = createClient("Jane", "Doe", LocalDate.parse("2000-01-02"));
     }
 
     private Client createClient(String prenom, String nom, LocalDate dateNaissance) {

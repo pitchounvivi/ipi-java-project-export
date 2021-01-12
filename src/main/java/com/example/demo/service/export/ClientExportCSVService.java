@@ -27,14 +27,10 @@ public class ClientExportCSVService {
         for(Client client:listClients){
             //calcul de l'age
             Integer age = Period.between(client.getDateNaissance(), LocalDate.now()).getYears();
-            
+
             writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+age);
         }
 
-
     }
-
-
-
 
 }
