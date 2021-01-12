@@ -29,9 +29,12 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     private void insertTestData() {
-        Article a1 = createArticle("Chargeurs de téléphones Portables", 22.98, 9);
-        Article a2 = createArticle("Playmobil Hydravion ;de Police", 14.39, 2);
-        Article a3 = createArticle("Distributeur de croquettes pour chien", 12.99, 0);
+        Article a1 = createArticle("Chargeurs de téléphones Portables", 22.98, 9, "Chargeurs de téléphones Portables; 22.98; Samsung EP-P1100. Type de chargeur: Intérieur; " +
+                "Type de source d'alimentation: Secteur; " +
+                "Compatibilité de chargeur: Smartphone; " +
+                "Charge rapide. Couleur du produit: Noir");
+        Article a2 = createArticle("Playmobil Hydravion de Police", 14.39, 2, "L'intérieur de l'avion peut contenir deux personnages et une valise.");
+        Article a3 = createArticle("Distributeur de croquettes pour chien", 12.99, 0, "Distributeur de nourriture croquettes, biscuits ou snacks pour chats et chiens Plastique robuste avec couvercle amovible");
 
         Client cl1 = createClient("John", "Doe", LocalDate.parse("2000-08-02"));
         Client cl2 = createClient("Jane", "Doe", LocalDate.parse("2000-01-02"));
@@ -46,11 +49,12 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         return null;
     }
 
-    private Article createArticle(String libelle, double prix, int stock) {
+    private Article createArticle(String libelle, double prix, int stock, String description) {
         Article a1 = new Article();
         a1.setLibelle(libelle);
         a1.setPrix(prix);
         a1.setStock(stock);
+        a1.setDescription(description);
         entityManager.persist(a1);
         return a1;
     }

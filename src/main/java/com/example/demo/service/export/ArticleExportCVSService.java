@@ -22,9 +22,10 @@ public class ArticleExportCVSService {
 
 
         List<Article> listArticles = articleRepository.findAll();
-        writer.println("Libelle;Prix;Stock;");
+        writer.println("Libelle;Prix;Description;");
         for (Article article:listArticles){
-            writer.println(article.getLibelle()+";"+article.getPrix()+";"+article.getStock());
+            //on vérifie si la description à une ; et on l'échappe pour permettre son affichage dans la même cellule que le texte
+            writer.println(String.format("\"%s\";\"%s\";\"%s\"", article.getLibelle(), article.getPrix(), article.getDescription()));
         }
 
 
