@@ -38,10 +38,10 @@ public class ClientExportXLSXService {
             //Mettre une "vraie" valeure dans la cellule
             cell.setCellValue("test cellule!!!!!!!!!!!!!!!!!!!!!!!!");
 
-            
+
             //Forcer la taille automatique des colonnes
             Sheet sheet = wb.getSheetAt(0);
-            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
 
             //écriture du document excel
             wb.write(outputSteam);
