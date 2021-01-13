@@ -25,10 +25,7 @@ public class ClientExportCSVService {
         List<Client> listClients = clientRepository.findAll();
         writer.println("nom;prenom;date;age");
         for(Client client:listClients){
-            //calcul de l'age
-            Integer age = Period.between(client.getDateNaissance(), LocalDate.now()).getYears();
-
-            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+age + " ans");
+            writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+client.calculAge() + " ans");
         }
 
     }
