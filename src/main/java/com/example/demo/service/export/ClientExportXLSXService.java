@@ -1,8 +1,8 @@
 package com.example.demo.service.export;
 
+import com.example.demo.entity.Client;
 import com.example.demo.repository.ClientRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Service
 public class ClientExportXLSXService {
@@ -29,16 +30,31 @@ public class ClientExportXLSXService {
             //Créer une feuille vide et son titre
             Sheet listClient = wb.createSheet("Liste de client");
 
-            //Créer une ligne et la positionner
+            //Créer une ligne et la positionne
             Row row = listClient.createRow(0);
 
-            //Créer une cellule et la positionner
+            //Créer une cellule et la positionne
             Cell cell = row.createCell(0);
             Cell cell1 = row.createCell(1);
+            Cell cell2 = row.createCell(2);
 
             //Mettre une "vraie" valeure dans la cellule
-            cell.setCellValue("test cellule!!!!!!!!!!!!!!!!!!!!!!!!");
-            cell1.setCellValue("autre test");
+            cell.setCellValue("nom");
+            cell1.setCellValue("prénom");
+            cell2.setCellValue("age");
+
+            int index = 0;
+            //Liste client
+            List<Client> listClients = clientRepository.findAll();
+            // pour chaque client
+            for (Client client:listClients){
+                //on crée une ligne et l'on remplit les cellules
+                index += 1;
+                Row rowClient = listClient.createRow(index);
+                rowClient.createCell(0).setCellValue(client.getNom());
+                rowClient.createCell(1).setCellValue(client.getPrenom());
+                rowClient.createCell(2).setCellValue(client.calculAge() + " ans");
+            }
 
 
             //Forcer la taille automatique des colonnes
