@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import org.springframework.data.convert.JodaTimeConverters;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;

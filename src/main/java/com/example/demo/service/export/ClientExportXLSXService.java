@@ -22,10 +22,10 @@ public class ClientExportXLSXService {
 
     public void export(OutputStream outputSteam) {
         try {
-            // Apache POI
+            // Apache POI (aide à l'adresse : https://poi.apache.org/components/spreadsheet/quick-guide.html)
+            // (autre aide : http://www.codeurjava.com/2015/04/lecture-ecriture-dans-un-fichier-excel-apache-poi.html)
             //Création document vide
             Workbook wb = new HSSFWorkbook();
-            // TODO
 
             //Créer une feuille vide et son titre
             Sheet listClient = wb.createSheet("Liste de client");
@@ -43,9 +43,11 @@ public class ClientExportXLSXService {
             cell1.setCellValue("prénom");
             cell2.setCellValue("age");
 
-            int index = 0;
+            //Ajout des Client au fichier
             //Liste client
             List<Client> listClients = clientRepository.findAll();
+            int index = 0;
+
             // pour chaque client
             for (Client client:listClients){
                 //on crée une ligne et l'on remplit les cellules

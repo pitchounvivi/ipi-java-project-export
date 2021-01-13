@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 @Service
@@ -18,10 +16,6 @@ public class ClientExportCSVService {
 
 
     public void export(PrintWriter writer) {
-        /*writer.println("Hello;WorldUNE AUTRE ESSAI");
-        writer.println("guten tag");*/
-
-
         List<Client> listClients = clientRepository.findAll();
         writer.println("nom;prenom;date;age");
         for(Client client:listClients){
