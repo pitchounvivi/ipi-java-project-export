@@ -4,6 +4,7 @@ import org.springframework.data.convert.JodaTimeConverters;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,6 +70,13 @@ public class Client {
     public void setDateNaissance(LocalDate dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
+
+    //Calcul age
+    public Integer calculAge (){
+        return Period.between(this.getDateNaissance(), LocalDate.now()).getYears();
+    }
+
+
 }
 
 
