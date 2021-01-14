@@ -62,9 +62,6 @@ public class ClientExportXLSXService {
             styleHead.setRightBorderColor(IndexedColors.BLUE.getIndex());
 
 
-
-
-
             //Créer une ligne et la positionne
             Row rowTitle = listeDeClient.createRow(0);
 
@@ -85,8 +82,6 @@ public class ClientExportXLSXService {
             rowTitle.getCell(2).setCellStyle(styleHead);
 
 
-
-
             //Ajout des Clients au fichier
             //Liste client
             List<Client> listClients = clientRepository.findAll();
@@ -101,24 +96,18 @@ public class ClientExportXLSXService {
                 rowClient.createCell(1).setCellValue(client.getPrenom());
                 rowClient.createCell(2).setCellValue(client.calculAge() + " ans");
 
-                //On applique à toutes la partie body
-                //for (Row ligne : listeDeClient){
 
-                    //On parcourt les colonnes
-                    for (Cell cellule : rowClient){
+                //On parcourt les colonnes
+                for (Cell cellule : rowClient){
 
-                        //On l'applique le style aux cellules
-                        cellule.setCellStyle(styleBody);
-                    }
-                //}
-
-
+                    //On l'applique le style aux cellules
+                    cellule.setCellStyle(styleBody);
+                }
             }
 
             //Forcer la taille automatique des colonnes
             Sheet sheet = wb.getSheetAt(0);
             sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
-
 
 
             //écriture du document excel
