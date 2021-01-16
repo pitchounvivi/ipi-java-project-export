@@ -40,14 +40,15 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
 
         Client cl1 = createClient("John", "Doe", LocalDate.parse("2000-08-02"));
         Client cl2 = createClient("Jane", "Doe", LocalDate.parse("2000-01-02"));
+        Client cl3 = createClient("testPrénom", "testNom", LocalDate.parse("2020-10-28"));
 
 
-       /* Facture f1 = createFacture(cl1);
+        /*Facture f1 = createFacture(cl1);
         Facture f2 = createFacture(cl2);
-        Facture f3 = createFacture(cl1);
+        Facture f3 = createFacture(cl1);*/
 
 
-        LigneFacture lf1 = createLigneFacture(a1, 2, f1);
+        /*LigneFacture lf1 = createLigneFacture(a1, 2, f1);
         LigneFacture lf2 = createLigneFacture(a2, 1, f1);
         LigneFacture lf3 = createLigneFacture(a3, 1, f2);
         LigneFacture Lf4 = createLigneFacture(a2, 3, f3);*/
@@ -74,19 +75,19 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         return a1;
     }
 
-/*
-    private Facture createFacture(Client client){
+    /*private Facture createFacture(Client client){
         Facture facture = new Facture();
         facture.setClient(client);
         entityManager.persist(facture);
         return facture;
-    }
+    }*/
 
 
-    private LigneFacture createLigneFacture(Article article, int quantite, Facture facture){
+    /*private LigneFacture createLigneFacture(Article article, int quantite, Facture facture){
         LigneFacture ligneFacture = new LigneFacture();
         ligneFacture.setArticle(article);
         ligneFacture.setQuantite(quantite);
+        ligneFacture.setFacture(facture);
         entityManager.persist(ligneFacture);
         return ligneFacture;
     }*/
