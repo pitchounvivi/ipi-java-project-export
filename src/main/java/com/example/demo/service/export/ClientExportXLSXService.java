@@ -4,12 +4,15 @@ import com.example.demo.entity.Client;
 import com.example.demo.repository.ClientRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClientExportXLSXService {
@@ -27,22 +30,23 @@ public class ClientExportXLSXService {
             //Créer une feuille vide et son titre
             Sheet listeDeClient = wb.createSheet("Liste de client");
 
-            //Formatage des bordures des cellules////////////////////////////////
-            //Création des nouveaux styles
-            CellStyle styleHead = wb.createCellStyle();
-            CellStyle styleBody = wb.createCellStyle();
+            //Zone de création des stytes des cellules////////////////////////////////
+            //Création d'une Map pour regrouper les futures propriétés
+            Map<String, Object> properties = new HashMap<String, Object>();
 
-            //Formatage du styleBody
-            styleBody.setBorderTop(BorderStyle.THICK);
-            styleBody.setBorderBottom(BorderStyle.THICK);
-            styleBody.setBorderLeft(BorderStyle.THICK);
-            styleBody.setBorderRight(BorderStyle.THICK);
-            styleBody.setTopBorderColor(IndexedColors.BLUE.getIndex());
-            styleBody.setBottomBorderColor(IndexedColors.BLUE.getIndex());
-            styleBody.setLeftBorderColor(IndexedColors.BLUE.getIndex());
-            styleBody.setRightBorderColor(IndexedColors.BLUE.getIndex());
-            /////////////////////////////////////////////////////////////////////
+            //Création des propriétés des bordures des cellules
+            properties.put(CellUtil.BORDER_TOP, BorderStyle.THICK);
+            properties.put(CellUtil.BORDER_BOTTOM, BorderStyle.THICK);
+            properties.put(CellUtil.BORDER_LEFT, BorderStyle.THICK);
+            properties.put(CellUtil.BORDER_RIGHT, BorderStyle.THICK);
 
+            //Création de la propriété couleurs de la bordure
+            properties.put(CellUtil.TOP_BORDER_COLOR, IndexedColors.BLUE.getIndex());
+            properties.put(CellUtil.BOTTOM_BORDER_COLOR, IndexedColors.BLUE.getIndex());
+            properties.put(CellUtil.LEFT_BORDER_COLOR, IndexedColors.BLUE.getIndex());
+            properties.put(CellUtil.RIGHT_BORDER_COLOR, IndexedColors.BLUE.getIndex());
+
+            //////////////////////////////
             //Création d'un nouveau font
             Font font = wb.createFont();
 
@@ -50,16 +54,13 @@ public class ClientExportXLSXService {
             font.setBold(true); // en gras
             font.setColor(IndexedColors.PINK.getIndex()); // en rose
 
-            //Formatage styleHead
+            //Création du style pour l'entête du tableau
+            CellStyle styleHead = wb.createCellStyle();
+
+            //Ajout du font à styleHead
             styleHead.setFont(font);
-            styleHead.setBorderTop(BorderStyle.THICK);
-            styleHead.setBorderBottom(BorderStyle.THICK);
-            styleHead.setBorderLeft(BorderStyle.THICK);
-            styleHead.setBorderRight(BorderStyle.THICK);
-            styleHead.setTopBorderColor(IndexedColors.BLUE.getIndex());
-            styleHead.setBottomBorderColor(IndexedColors.BLUE.getIndex());
-            styleHead.setLeftBorderColor(IndexedColors.BLUE.getIndex());
-            styleHead.setRightBorderColor(IndexedColors.BLUE.getIndex());
+
+            /////////////////////////////////////////////////////////////////////
 
 
             //Créer une ligne et la positionne
@@ -76,11 +77,19 @@ public class ClientExportXLSXService {
             cell2.setCellValue("Age");
 
 
-            //On applique le formatage à la première ligne seulement
+            //On applique le formatage du font à la première ligne seulement
             rowTitle.getCell(0).setCellStyle(styleHead);
             rowTitle.getCell(1).setCellStyle(styleHead);
             rowTitle.getCell(2).setCellStyle(styleHead);
 
+
+            //On applique le style
+            CellUtil.setCellStyleProperties(rowTitle.getCell(0), properties);
+            CellUtil.setCellStyleProperties(rowTitle.getCell(1), properties);
+            CellUtil.setCellStyleProperties(rowTitle.getCell(2), properties);
+
+
+//////////////////////////////////////////////////////////////////////////
 
             //Ajout des Clients au fichier
             //Liste client
@@ -101,9 +110,11 @@ public class ClientExportXLSXService {
                 for (Cell cellule : rowClient){
 
                     //On l'applique le style aux cellules
-                    cellule.setCellStyle(styleBody);
+                    CellUtil.setCellStyleProperties(cellule, properties);
+
                 }
             }
+            
 
             //Forcer la taille automatique des colonnes
             Sheet sheet = wb.getSheetAt(0);

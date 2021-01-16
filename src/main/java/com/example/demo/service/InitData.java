@@ -42,7 +42,7 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         Client cl2 = createClient("Jane", "Doe", LocalDate.parse("2000-01-02"));
 
 
-        Facture f1 = createFacture(cl1);
+       /* Facture f1 = createFacture(cl1);
         Facture f2 = createFacture(cl2);
         Facture f3 = createFacture(cl1);
 
@@ -50,7 +50,7 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         LigneFacture lf1 = createLigneFacture(a1, 2, f1);
         LigneFacture lf2 = createLigneFacture(a2, 1, f1);
         LigneFacture lf3 = createLigneFacture(a3, 1, f2);
-        LigneFacture Lf4 = createLigneFacture(a2, 3, f3);
+        LigneFacture Lf4 = createLigneFacture(a2, 3, f3);*/
 
 
     }
@@ -74,7 +74,7 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         return a1;
     }
 
-
+/*
     private Facture createFacture(Client client){
         Facture facture = new Facture();
         facture.setClient(client);
@@ -89,6 +89,6 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         ligneFacture.setQuantite(quantite);
         entityManager.persist(ligneFacture);
         return ligneFacture;
-    }
+    }*/
 
 }
