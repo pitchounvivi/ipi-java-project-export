@@ -4,10 +4,7 @@ import com.example.demo.entity.Client;
 import com.example.demo.repository.ClientRepository;
 import com.example.demo.repository.FactureRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +14,6 @@ import java.util.Optional;
 
 @Service
 public class FactureExportXLSXService {
-
-    @Autowired
-    private FactureRepository factureRepository;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -43,18 +37,21 @@ public class FactureExportXLSXService {
             Row rowNom = listeFactureClient.createRow(0);
             Row rowPrenom = listeFactureClient.createRow(1);
             Row rowAnnee = listeFactureClient.createRow(2);
+            Row rowFacture = listeFactureClient.createRow(3);
 
 
             //Création de cellule
             Cell cellNom = rowNom.createCell(0);
             Cell cellPrenom = rowPrenom.createCell(0);
             Cell cellAnnee = rowAnnee.createCell(0);
+            Cell cellFacture = rowFacture.createCell(0);
 
 
             //Mettre leur nom
             cellNom.setCellValue("Nom :");
             cellPrenom.setCellValue("Prénom :");
             cellAnnee.setCellValue("Année de Naissance :");
+            cellFacture.setCellValue(" Facture(s) :");
 
 
             //Création des cellules pour le client
@@ -70,6 +67,28 @@ public class FactureExportXLSXService {
 
 
 
+
+
+
+
+
+            ////////////////Création du style pour la cellule facture////////////////
+            //Création d'un nouveau font
+            Font font = wb.createFont();
+
+            //Formatage du font
+            font.setBold(true); // en gras
+
+            //Création du style pour l'entête du tableau
+            CellStyle styleFacture = wb.createCellStyle();
+
+            //Ajout du font à styleHead
+            styleFacture.setFont(font);
+
+            //Application à la cellule facture
+            cellFacture.setCellStyle(styleFacture);
+
+            /////////////////////////////////////////////////////////////////////////
 
 
 
