@@ -1,5 +1,6 @@
 package com.example.demo.controller.export;
 
+import com.example.demo.repository.ClientRepository;
 import com.example.demo.service.export.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,17 +81,6 @@ public class ExportArticleController {
 
 
 
-    /** Méthode utilisée pour l'export factures (l'ensemble) */
-    @GetMapping("/factures/xlsx")
-    public void clientGetFacturesXLSX(HttpServletResponse response) throws IOException {
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=\"client-factures.xlsx\"");
-        // TODO
-
-        OutputStream outputStream = response.getOutputStream();
-        factureExportXLSXService.export(outputStream);
-    }
-
     /** Méthode utilisée pour l'export facture (point n°5) */
     @GetMapping("/clients/{id}/factures/xlsx")
     public void clientGetFacturesXLSX(@PathVariable Long id, HttpServletResponse response) throws IOException {
@@ -98,8 +88,14 @@ public class ExportArticleController {
         response.setHeader("Content-Disposition", "attachment; filename=\"client-" + id + "-factures.xlsx\"");
         // TODO
 
+        //Création du flux
         OutputStream outputStream = response.getOutputStream();
-        factureExportXLSXService.export(outputStream);
+
+        //Ajout des infos client au flux
+        factureExportXLSXService.infoClient(id);
+
+        //Appel de la méthode pour facturer un client spécifique
+        factureExportXLSXService.exportUnClient(outputStream, id);
     }
 
 
