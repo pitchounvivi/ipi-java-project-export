@@ -60,13 +60,13 @@ public class FactureExportXLSXService {
             //Création des cellules pour le client
             Cell cellNomClient = rowNom.createCell(1);
             Cell cellPrenomClient = rowPrenom.createCell(1);
-
+            Cell cellAnneeClient = rowAnnee.createCell(1);
 
 
             //Remplissage avec les valeurs client
             cellNomClient.setCellValue(client.get().getNom());
             cellPrenomClient.setCellValue(client.get().getPrenom());
-
+            cellAnneeClient.setCellValue(client.get().getDateNaissance().getYear());
 
 
 
