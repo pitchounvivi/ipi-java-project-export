@@ -30,6 +30,37 @@ public class ClientExportXLSXService {
             //Créer une feuille vide et son titre
             Sheet listeDeClient = wb.createSheet("Liste de client");
 
+
+            //Créer une ligne d'en tête et la positionne
+            Row rowTitle = listeDeClient.createRow(0);
+
+            //Créer une cellule et la positionne
+            Cell cell0 = rowTitle.createCell(0);
+            Cell cell1 = rowTitle.createCell(1);
+            Cell cell2 = rowTitle.createCell(2);
+
+            //Mettre une "vraie" valeur dans la cellule
+            cell0.setCellValue("Nom");
+            cell1.setCellValue("Prénom");
+            cell2.setCellValue("Age");
+
+
+            //Ajout des Clients au fichier
+            //Liste client
+            List<Client> listClients = clientRepository.findAll();
+            int index = 0;
+
+            // pour chaque client
+            for (Client client:listClients){
+                //on crée une ligne et l'on remplit les cellules
+                index += 1;
+                Row rowClient = listeDeClient.createRow(index);
+                rowClient.createCell(0).setCellValue(client.getNom());
+                rowClient.createCell(1).setCellValue(client.getPrenom());
+                rowClient.createCell(2).setCellValue(client.calculAge() + " ans");
+            }
+
+
             //Zone de création des stytes des cellules////////////////////////////////
             //Création d'une Map pour regrouper les futures propriétés
             Map<String, Object> properties = new HashMap<String, Object>();
@@ -62,63 +93,26 @@ public class ClientExportXLSXService {
 
             /////////////////////////////////////////////////////////////////////
 
-
-            //Créer une ligne et la positionne
-            Row rowTitle = listeDeClient.createRow(0);
-
-            //Créer une cellule et la positionne
-            Cell cell0 = rowTitle.createCell(0);
-            Cell cell1 = rowTitle.createCell(1);
-            Cell cell2 = rowTitle.createCell(2);
-
-            //Mettre une "vraie" valeur dans la cellule
-            cell0.setCellValue("Nom");
-            cell1.setCellValue("Prénom");
-            cell2.setCellValue("Age");
-
-
             //On applique le formatage du font à la première ligne seulement
             rowTitle.getCell(0).setCellStyle(styleHead);
             rowTitle.getCell(1).setCellStyle(styleHead);
             rowTitle.getCell(2).setCellStyle(styleHead);
 
 
-            //On applique le style
-            CellUtil.setCellStyleProperties(rowTitle.getCell(0), properties);
-            CellUtil.setCellStyleProperties(rowTitle.getCell(1), properties);
-            CellUtil.setCellStyleProperties(rowTitle.getCell(2), properties);
-
-
-//////////////////////////////////////////////////////////////////////////
-
-            //Ajout des Clients au fichier
-            //Liste client
-            List<Client> listClients = clientRepository.findAll();
-            int index = 0;
-
-            // pour chaque client
-            for (Client client:listClients){
-                //on crée une ligne et l'on remplit les cellules
-                index += 1;
-                Row rowClient = listeDeClient.createRow(index);
-                rowClient.createCell(0).setCellValue(client.getNom());
-                rowClient.createCell(1).setCellValue(client.getPrenom());
-                rowClient.createCell(2).setCellValue(client.calculAge() + " ans");
-
-
-                //On parcourt les colonnes
-                for (Cell cellule : rowClient){
-
+            //On applique le formatage des bordures à toutes les cellules
+            //Itérer sur toutes les cellules utilisées du document
+            for (Row row : listeDeClient){
+                for (Cell cell : row){
                     //On l'applique le style aux cellules
-                    CellUtil.setCellStyleProperties(cellule, properties);
-
+                    CellUtil.setCellStyleProperties(cell, properties);
                 }
             }
-            
+
 
             //Forcer la taille automatique des colonnes
             Sheet sheet = wb.getSheetAt(0);
             sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
+            sheet.autoSizeColumn(1);
 
 
             //écriture du document excel
