@@ -93,10 +93,10 @@ public class ClientExportXLSXService {
 
             /////////////////////////////////////////////////////////////////////
 
-            //On applique le formatage du font à la première ligne seulement
-            rowTitle.getCell(0).setCellStyle(styleHead);
-            rowTitle.getCell(1).setCellStyle(styleHead);
-            rowTitle.getCell(2).setCellStyle(styleHead);
+            //On applique le formatage du font aux cellules de la première ligne seulement
+            for (Cell cell : rowTitle){
+                cell.setCellStyle(styleHead);
+            }
 
 
             //On applique le formatage des bordures à toutes les cellules
