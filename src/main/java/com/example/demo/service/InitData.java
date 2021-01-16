@@ -62,7 +62,7 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
         client.setNom(nom);
         client.setDateNaissance(dateNaissance);
         entityManager.persist(client);
-        return null;
+        return client;
     }
 
     private Article createArticle(String libelle, double prix, int stock, String description) {
