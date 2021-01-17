@@ -40,18 +40,27 @@ public class InitData implements ApplicationListener<ApplicationReadyEvent> {
 
         Client cl1 = createClient("John", "Doe", LocalDate.parse("2000-08-02"));
         Client cl2 = createClient("Jane", "Doe", LocalDate.parse("2000-01-02"));
+        Client cl3 = createClient("viviane", "Nguyen", LocalDate.parse("1979-10-25"));
 
 
         Facture f1 = createFacture(cl1);
         Facture f2 = createFacture(cl2);
         Facture f3 = createFacture(cl1);
+        Facture f4 = createFacture(cl3);
+        Facture f5 = createFacture(cl3);
+        Facture f6 = createFacture(cl3);
 
 
         LigneFacture lf1 = createLigneFacture(a1, 2, f1);
         LigneFacture lf2 = createLigneFacture(a2, 1, f1);
         LigneFacture lf3 = createLigneFacture(a3, 1, f2);
         LigneFacture Lf4 = createLigneFacture(a2, 3, f3);
-
+        LigneFacture Lf5 = createLigneFacture(a3, 1, f4);
+        LigneFacture Lf6 = createLigneFacture(a2, 3, f4);
+        LigneFacture lf7 = createLigneFacture(a1, 1, f4);
+        LigneFacture lf8 = createLigneFacture(a1, 2, f5);
+        LigneFacture Lf9 = createLigneFacture(a3, 1, f6);
+        LigneFacture lf10 = createLigneFacture(a1, 1, f6);
 
     }
 

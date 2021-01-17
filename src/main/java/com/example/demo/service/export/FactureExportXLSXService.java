@@ -1,6 +1,7 @@
 package com.example.demo.service.export;
 
 import com.example.demo.entity.Client;
+import com.example.demo.entity.Facture;
 import com.example.demo.repository.ClientRepository;
 import com.example.demo.repository.FactureRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,6 +19,10 @@ public class FactureExportXLSXService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private FactureRepository factureRepository;
+
+
     public void exportUnClient(OutputStream outputSteam, Long id) {
         try {
             // Apache POI (aide à l'adresse : https://poi.apache.org/components/spreadsheet/quick-guide.html)
@@ -27,6 +32,8 @@ public class FactureExportXLSXService {
 
             //Récupération des infos du client
             Optional<Client> client = clientRepository.findById(id);
+
+
 
 
             //Créer une feuille vide et son titre
@@ -65,7 +72,12 @@ public class FactureExportXLSXService {
             cellPrenomClient.setCellValue(client.get().getPrenom());
             cellAnneeClient.setCellValue(client.get().getDateNaissance().getYear());
 
-
+            //Remplissage des cellules avec les numéros(id) des factures
+            int index = 0; //initialisation du compteur de cellule
+            for (Facture facture : client.get().getFactures()){
+                index += 1;
+                rowFacture.createCell(index).setCellValue(facture.getId());
+            }
 
 
 
