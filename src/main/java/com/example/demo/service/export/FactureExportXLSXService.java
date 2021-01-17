@@ -2,6 +2,7 @@ package com.example.demo.service.export;
 
 import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
+import com.example.demo.entity.LigneFacture;
 import com.example.demo.repository.ClientRepository;
 import com.example.demo.repository.FactureRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -85,7 +86,7 @@ public class FactureExportXLSXService {
             //Pour chaque facture on crée une nouvelle feuille
             int indexFacture = 0; //initialisation du compteur de feuille facture
             for (Facture facture : client.get().getFactures()){
-                //incrémentation index
+                //incrémentation index pour itérer sur chaque facture
                 indexFacture += 1;
 
                 //Créer une feuille vide et son titre
@@ -103,6 +104,27 @@ public class FactureExportXLSXService {
                 cellDesignation.setCellValue("Désignation :");
                 cellQuantite.setCellValue("Quantité :");
                 cellPrixUnitaire.setCellValue("Prix unitaire :");
+
+
+                //Récupération des lignes de chaque facture
+                int indexLigne = 0; //initialisation
+                for (LigneFacture ligneFacture : facture.getLigneFactures()){
+                    //incrémentation index pour itérer sur chaque ligne de la facture
+                    indexLigne += 1;
+
+                    Row rowLigneFacture = factureClient.createRow(indexLigne);
+                    rowLigneFacture.createCell(0).setCellValue(ligneFacture.getArticle().getLibelle());
+                    rowLigneFacture.createCell(1).setCellValue(ligneFacture.getQuantite());
+                    rowLigneFacture.createCell(2).setCellValue(ligneFacture.getArticle().getPrix());
+                }
+
+
+
+
+
+
+
+
 
 
                 //////////////////////////////Création Style des cellules
