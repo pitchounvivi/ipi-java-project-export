@@ -33,11 +33,10 @@ public class FactureExportXLSXService {
             //Récupération des infos du client
             Optional<Client> client = clientRepository.findById(id);
 
-
-
+            int index = 0; //initialisation du compteur de cellule
 
             //Créer une feuille vide et son titre
-            Sheet listeFactureClient = wb.createSheet(client.get().getNom() + client.get().getPrenom());
+            Sheet listeFactureClient = wb.createSheet(client.get().getNom() +" "+ client.get().getPrenom());
 
 
             //créer une ligne
@@ -47,39 +46,36 @@ public class FactureExportXLSXService {
             Row rowFacture = listeFactureClient.createRow(3);
 
 
-            //Création de cellule
+            //Création des cellules de la première colonne
             Cell cellNom = rowNom.createCell(0);
             Cell cellPrenom = rowPrenom.createCell(0);
             Cell cellAnnee = rowAnnee.createCell(0);
             Cell cellFacture = rowFacture.createCell(0);
 
 
-            //Mettre leur nom
-            cellNom.setCellValue("Nom :");
-            cellPrenom.setCellValue("Prénom :");
-            cellAnnee.setCellValue("Année de Naissance :");
-            cellFacture.setCellValue(" Facture(s) :");
-
-
-            //Création des cellules pour le client
+            //Création des cellules pour le client (colonne 2)
             Cell cellNomClient = rowNom.createCell(1);
             Cell cellPrenomClient = rowPrenom.createCell(1);
             Cell cellAnneeClient = rowAnnee.createCell(1);
 
 
-            //Remplissage avec les valeurs client
+            //Remplissage des cellules client avec les valeurs client
             cellNomClient.setCellValue(client.get().getNom());
             cellPrenomClient.setCellValue(client.get().getPrenom());
             cellAnneeClient.setCellValue(client.get().getDateNaissance().getYear());
 
-            //Remplissage des cellules avec les numéros(id) des factures
-            int index = 0; //initialisation du compteur de cellule
+            //Remplissage des cellules factures avec les numéros(id) des factures
             for (Facture facture : client.get().getFactures()){
                 index += 1;
                 rowFacture.createCell(index).setCellValue(facture.getId());
             }
 
 
+            //Remplissage de la première colonne avec le nom des lignes
+            cellNom.setCellValue("Nom :");
+            cellPrenom.setCellValue("Prénom :");
+            cellAnnee.setCellValue("Année de Naissance :");
+            cellFacture.setCellValue(index +" Facture(s) :");
 
 
 
