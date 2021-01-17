@@ -105,6 +105,27 @@ public class FactureExportXLSXService {
                 cellPrixUnitaire.setCellValue("Prix unitaire :");
 
 
+                //////////////////////////////Création Style des cellules
+                //Création d'un nouveau font
+                Font font = wb.createFont();
+
+                //Formatage du font
+                font.setBold(true); // en gras
+
+                //Création du style pour l'entête du tableau
+                CellStyle styleHead = wb.createCellStyle();
+
+                //Ajout du font à styleHead
+                styleHead.setFont(font);
+
+                //On applique le formatage du font aux cellules de la première ligne seulement
+                for (Cell cell : rowEnTete){
+                    cell.setCellStyle(styleHead);
+                }
+
+                /////////////////////////////////////////////////////////////////////
+
+
                 //Taille automatique des colonnes
                 Sheet sheetFacture = wb.getSheetAt(indexFacture);
                 sheetFacture.autoSizeColumn(0); // valable uniquement pour la première colonne
@@ -138,9 +159,7 @@ public class FactureExportXLSXService {
             //Application à la cellule facture
             cellFacture.setCellStyle(styleGras);
 
-
             /////////////////////////////////////////////////////////////////////////
-
 
 
             //Forcer la taille automatique des colonnes
