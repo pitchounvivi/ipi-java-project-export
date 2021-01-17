@@ -35,6 +35,7 @@ public class FactureExportXLSXService {
 
             int index = 0; //initialisation du compteur de cellule
 
+            ///////////////////////////FEUILLE Client///////////////////////////////////////////
             //Créer une feuille vide et son titre
             Sheet listeFactureClient = wb.createSheet(client.get().getNom() +" "+ client.get().getPrenom());
 
@@ -77,6 +78,23 @@ public class FactureExportXLSXService {
             cellAnnee.setCellValue("Année de Naissance :");
             cellFacture.setCellValue(index +" Facture(s) :");
 
+            /////////////////////////////////////FIN FEUILLE Client/////////////////////////////////////////////
+
+
+            ////////////////////////////////////FEUILLE de facture/////////////////////////////////////////////
+            //Pour chaque facture on crée une nouvelle feuille
+            for (Facture facture : client.get().getFactures()){
+                //Créer une feuille vide et son titre
+                Sheet factureClient = wb.createSheet("Facture N° "+ facture.getId());
+            }
+
+
+
+
+
+
+
+
 
 
 
@@ -90,7 +108,7 @@ public class FactureExportXLSXService {
             //Création du style pour l'entête du tableau
             CellStyle styleFacture = wb.createCellStyle();
 
-            //Ajout du font à styleHead
+            //Ajout du font à styleFacture
             styleFacture.setFont(font);
 
             //Application à la cellule facture
@@ -101,7 +119,7 @@ public class FactureExportXLSXService {
 
 
             //Forcer la taille automatique des colonnes
-            Sheet sheet = wb.getSheetAt(0);
+            Sheet sheet = wb.getSheetAt(0); // Feuille 1
             sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
             sheet.autoSizeColumn(1);
 
