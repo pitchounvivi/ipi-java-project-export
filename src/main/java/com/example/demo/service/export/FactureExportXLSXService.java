@@ -4,14 +4,17 @@ import com.example.demo.entity.Client;
 import com.example.demo.entity.Facture;
 import com.example.demo.entity.LigneFacture;
 import com.example.demo.repository.ClientRepository;
-import com.example.demo.repository.FactureRepository;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,10 +22,6 @@ public class FactureExportXLSXService {
 
     @Autowired
     private ClientRepository clientRepository;
-
-    @Autowired
-    private FactureRepository factureRepository;
-
 
     public void exportUnClient(OutputStream outputSteam, Long id) {
         try {
@@ -101,7 +100,7 @@ public class FactureExportXLSXService {
                 Cell cellPrixUnitaire = rowEnTete.createCell(2);
 
                 //Remplissage avec le nom des colonnes
-                cellDesignation.setCellValue("Désignation :");
+                cellDesignation.setCellValue("Désignation");
                 cellQuantite.setCellValue("Quantité :");
                 cellPrixUnitaire.setCellValue("Prix unitaire :");
 
@@ -119,6 +118,10 @@ public class FactureExportXLSXService {
                 }
 
 
+                //Création de la ligne de total
+                Row rowTotal = factureClient.createRow(indexLigne+1);
+                Cell cellTotal = rowTotal.createCell(0);
+                cellTotal.setCellValue("Total : ");
 
 
 
@@ -126,26 +129,51 @@ public class FactureExportXLSXService {
 
 
 
+                //////////////////////////////Création Style des cellules //////////////////////////
+                //Création d'une Map pour regrouper les futures propriétés
+                Map<String, Object> properties = new HashMap<String, Object>();
 
-                //////////////////////////////Création Style des cellules
-                //Création d'un nouveau font
+                //Création des propriétés d'alignement dans la cellule
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.RIGHT);
+
+
+                ///////////////Création d'un nouveau font////////////////////
                 Font font = wb.createFont();
 
                 //Formatage du font
                 font.setBold(true); // en gras
 
                 //Création du style pour l'entête du tableau
-                CellStyle styleHead = wb.createCellStyle();
+                CellStyle styleBold = wb.createCellStyle();
 
-                //Ajout du font à styleHead
-                styleHead.setFont(font);
+                //Ajout du font à styleBold
+                styleBold.setFont(font);
+
+                ////////////////////////////////////////////////////////////
+
+                //////////////////////Fusion de la cellule totale/////////////////
+                factureClient.addMergedRegion(new CellRangeAddress(
+                        indexLigne+1,
+                        indexLigne+1,
+                        0,
+                        1));
+
+                ////////////////////////////////////////////////////////////////////
+                //Application des différents styles
 
                 //On applique le formatage du font aux cellules de la première ligne seulement
                 for (Cell cell : rowEnTete){
-                    cell.setCellStyle(styleHead);
+                    cell.setCellStyle(styleBold);
                 }
 
-                /////////////////////////////////////////////////////////////////////
+                //Application à la cellule total
+                cellTotal.setCellStyle(styleBold);
+
+                //Application à la cellule totale
+                CellUtil.setCellStyleProperties(cellTotal, properties);
+
+                ////////////////////////////////////////////////////////////////////
+
 
 
                 //Taille automatique des colonnes
@@ -154,7 +182,7 @@ public class FactureExportXLSXService {
                 sheetFacture.autoSizeColumn(1);
                 sheetFacture.autoSizeColumn(2);
             }
-
+            //////////////////////////////FIN FEUILLE de facture///////////////////////////////////////////
 
 
 
@@ -175,7 +203,7 @@ public class FactureExportXLSXService {
             //Création du style gras
             CellStyle styleGras = wb.createCellStyle();
 
-            //Ajout du font à styleFacture
+            //Ajout du font à styleGras
             styleGras.setFont(font);
 
             //Application à la cellule facture
