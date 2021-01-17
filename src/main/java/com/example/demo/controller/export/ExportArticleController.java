@@ -91,9 +91,6 @@ public class ExportArticleController {
         //Création du flux
         OutputStream outputStream = response.getOutputStream();
 
-        //Ajout des infos client au flux
-        factureExportXLSXService.infoClient(id);
-
         //Appel de la méthode pour facturer un client spécifique
         factureExportXLSXService.exportUnClient(outputStream, id);
     }

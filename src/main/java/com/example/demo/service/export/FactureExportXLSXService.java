@@ -114,12 +114,5 @@ public class FactureExportXLSXService {
         }
     }
 
-    //Récupération des infos du client
-    public Optional<Client> infoClient(Long id){
-        Optional<Client> client = clientRepository.findById(id);
-        return client;
-    }
-
-
 
 }
