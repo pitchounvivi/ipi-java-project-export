@@ -107,6 +107,7 @@ public class FactureExportXLSXService {
 
                 //Récupération des lignes de chaque facture
                 int indexLigne = 0; //initialisation
+                Double calculFacture = 0d;
                 for (LigneFacture ligneFacture : facture.getLigneFactures()){
                     //incrémentation index pour itérer sur chaque ligne de la facture
                     indexLigne += 1;
@@ -115,6 +116,9 @@ public class FactureExportXLSXService {
                     rowLigneFacture.createCell(0).setCellValue(ligneFacture.getArticle().getLibelle());
                     rowLigneFacture.createCell(1).setCellValue(ligneFacture.getQuantite());
                     rowLigneFacture.createCell(2).setCellValue(ligneFacture.getArticle().getPrix());
+
+                    //Calcul pour la somme total de la facture
+                    calculFacture += ligneFacture.getQuantite() * ligneFacture.getArticle().getPrix();
                 }
 
 
@@ -124,7 +128,11 @@ public class FactureExportXLSXService {
                 cellTotal.setCellValue("Total : ");
 
 
+                //Création de la cellule du calcul total
+                Cell cellCalcul = rowTotal.createCell(2);
+                cellCalcul.setCellValue(calculFacture);
 
+                
 
 
 
