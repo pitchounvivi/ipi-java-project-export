@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 /**
- * Controller pour réaliser export des articles.
+ * Controller pour réaliser export CSV et XLSX.
  */
 @Controller
 @RequestMapping("export")
@@ -26,7 +26,6 @@ public class ExportArticleController {
     @Autowired
     private ArticleExportXLSXService articleExportXLSXService;
 
-
     @Autowired
     private ClientExportCSVService clientExportCSVService;
 
@@ -35,7 +34,6 @@ public class ExportArticleController {
 
     @Autowired
     private FactureExportXLSXService factureExportXLSXService;
-
 
 
     /**
@@ -58,7 +56,6 @@ public class ExportArticleController {
     }
 
 
-
     /**
      * Export des clients au format CSV.
      */
@@ -79,7 +76,6 @@ public class ExportArticleController {
     }
 
 
-
     /** Méthode utilisée pour l'export facture (point n°5) */
     @GetMapping("/clients/{id}/factures/xlsx")
     public void clientGetFacturesXLSX(@PathVariable Long id, HttpServletResponse response) throws IOException {
@@ -93,6 +89,4 @@ public class ExportArticleController {
         //Appel de la méthode pour facturer un client spécifique
         factureExportXLSXService.exportUnClient(outputStream, id);
     }
-
-
 }

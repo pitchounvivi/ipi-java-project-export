@@ -86,10 +86,6 @@ public class FactureExportXLSXService {
 
             /////////////////////////////////////FIN FEUILLE Client/////////////////////////////////////////////
 
-            //Méthode pour créer un onglet par facture client
-            exportUneFacture(outputSteam, wb, client);
-
-
 
             ////////////////Création du style pour la cellule facture////////////////
             //Création d'un nouveau font
@@ -114,6 +110,13 @@ public class FactureExportXLSXService {
             Sheet sheet = wb.getSheetAt(0); // Feuille Client
             sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
             sheet.autoSizeColumn(1);
+
+
+            ///////////////////////////ONGLET facture///////////////////////////////////////////
+            //Méthode pour créer un onglet par facture client
+            exportUneFacture(outputSteam, wb, client);
+
+            ///////////////////////////FIN ONGLET facture///////////////////////////////////////////
 
 
             //écriture du document excel
