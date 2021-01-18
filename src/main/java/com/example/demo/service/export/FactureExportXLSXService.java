@@ -81,6 +81,10 @@ public class FactureExportXLSXService {
             /////////////////////////////////////FIN FEUILLE Client/////////////////////////////////////////////
 
 
+            exportUneFacture(outputSteam, wb, client);
+
+/*
+
             ////////////////////////////////////FEUILLE de facture/////////////////////////////////////////////
             //Pour chaque facture on crée une nouvelle feuille
             int indexFacture = 0; //initialisation du compteur de feuille facture
@@ -132,7 +136,164 @@ public class FactureExportXLSXService {
                 Cell cellCalcul = rowTotal.createCell(2);
                 cellCalcul.setCellValue(calculFacture);
 
-                
+
+
+
+
+
+                //////////////////////////////Création Style des cellules //////////////////////////
+                //Création d'une Map pour regrouper les futures propriétés
+                Map<String, Object> properties = new HashMap<String, Object>();
+
+                //Création des propriétés d'alignement dans la cellule
+                properties.put(CellUtil.ALIGNMENT, HorizontalAlignment.RIGHT);
+
+
+                ///////////////Création d'un nouveau font////////////////////
+                Font font = wb.createFont();
+
+                //Formatage du font
+                font.setBold(true); // en gras
+
+                //Création du style pour l'entête du tableau
+                CellStyle styleBold = wb.createCellStyle();
+
+                //Ajout du font à styleBold
+                styleBold.setFont(font);
+
+                ////////////////////////////////////////////////////////////
+
+                //////////////////////Fusion de la cellule totale/////////////////
+                factureClient.addMergedRegion(new CellRangeAddress(
+                        indexLigne+1,
+                        indexLigne+1,
+                        0,
+                        1));
+
+                ////////////////////////////////////////////////////////////////////
+                //Application des différents styles
+
+                //On applique le formatage du font aux cellules de la première ligne seulement
+                for (Cell cell : rowEnTete){
+                    cell.setCellStyle(styleBold);
+                }
+
+                //Application à la cellule total
+                cellTotal.setCellStyle(styleBold);
+
+                //Application à la cellule totale
+                CellUtil.setCellStyleProperties(cellTotal, properties);
+
+                ////////////////////////////////////////////////////////////////////
+
+
+
+                //Taille automatique des colonnes
+                Sheet sheetFacture = wb.getSheetAt(indexFacture);
+                sheetFacture.autoSizeColumn(0); // valable uniquement pour la première colonne
+                sheetFacture.autoSizeColumn(1);
+                sheetFacture.autoSizeColumn(2);
+            }
+            //////////////////////////////FIN FEUILLE de facture///////////////////////////////////////////
+
+*/
+
+
+
+
+
+
+
+
+
+            ////////////////Création du style pour la cellule facture////////////////
+            //Création d'un nouveau font
+            Font font = wb.createFont();
+
+            //Formatage du font
+            font.setBold(true); // en gras
+
+            //Création du style gras
+            CellStyle styleGras = wb.createCellStyle();
+
+            //Ajout du font à styleGras
+            styleGras.setFont(font);
+
+            //Application à la cellule facture
+            cellFacture.setCellStyle(styleGras);
+
+            /////////////////////////////////////////////////////////////////////////
+
+
+            //Forcer la taille automatique des colonnes
+            Sheet sheet = wb.getSheetAt(0); // Feuille Client
+            sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
+            sheet.autoSizeColumn(1);
+
+
+            //écriture du document excel
+            wb.write(outputSteam);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void exportUneFacture(OutputStream outputSteam, Workbook wb, Optional<Client> client) {
+        try {
+
+            ////////////////////////////////////FEUILLE de facture/////////////////////////////////////////////
+            //Pour chaque facture on crée une nouvelle feuille
+            int indexFacture = 0; //initialisation du compteur de feuille facture
+            for (Facture facture : client.get().getFactures()){
+                //incrémentation index pour itérer sur chaque facture
+                indexFacture += 1;
+
+                //Créer une feuille vide et son titre
+                Sheet factureClient = wb.createSheet("Facture N° "+ facture.getId());
+
+                //Création ligne en-tête
+                Row rowEnTete = factureClient.createRow(0);
+
+                //Création des cellules en-tête
+                Cell cellDesignation = rowEnTete.createCell(0);
+                Cell cellQuantite = rowEnTete.createCell(1);
+                Cell cellPrixUnitaire = rowEnTete.createCell(2);
+
+                //Remplissage avec le nom des colonnes
+                cellDesignation.setCellValue("Désignation");
+                cellQuantite.setCellValue("Quantité :");
+                cellPrixUnitaire.setCellValue("Prix unitaire :");
+
+
+                //Récupération des lignes de chaque facture
+                int indexLigne = 0; //initialisation
+                Double calculFacture = 0d;
+                for (LigneFacture ligneFacture : facture.getLigneFactures()){
+                    //incrémentation index pour itérer sur chaque ligne de la facture
+                    indexLigne += 1;
+
+                    Row rowLigneFacture = factureClient.createRow(indexLigne);
+                    rowLigneFacture.createCell(0).setCellValue(ligneFacture.getArticle().getLibelle());
+                    rowLigneFacture.createCell(1).setCellValue(ligneFacture.getQuantite());
+                    rowLigneFacture.createCell(2).setCellValue(ligneFacture.getArticle().getPrix());
+
+                    //Calcul pour la somme total de la facture
+                    calculFacture += ligneFacture.getQuantite() * ligneFacture.getArticle().getPrix();
+                }
+
+
+                //Création de la ligne de total
+                Row rowTotal = factureClient.createRow(indexLigne+1);
+                Cell cellTotal = rowTotal.createCell(0);
+                cellTotal.setCellValue("Total : ");
+
+
+                //Création de la cellule du calcul total
+                Cell cellCalcul = rowTotal.createCell(2);
+                cellCalcul.setCellValue(calculFacture);
+
+
 
 
 
@@ -194,44 +355,21 @@ public class FactureExportXLSXService {
 
 
 
-
-
-
-
-
-
-
-            ////////////////Création du style pour la cellule facture////////////////
-            //Création d'un nouveau font
-            Font font = wb.createFont();
-
-            //Formatage du font
-            font.setBold(true); // en gras
-
-            //Création du style gras
-            CellStyle styleGras = wb.createCellStyle();
-
-            //Ajout du font à styleGras
-            styleGras.setFont(font);
-
-            //Application à la cellule facture
-            cellFacture.setCellStyle(styleGras);
-
-            /////////////////////////////////////////////////////////////////////////
-
-
-            //Forcer la taille automatique des colonnes
-            Sheet sheet = wb.getSheetAt(0); // Feuille Client
-            sheet.autoSizeColumn(0); // valable uniquement pour la première colonne
-            sheet.autoSizeColumn(1);
-
-
             //écriture du document excel
             wb.write(outputSteam);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+
+
 
 
 }
