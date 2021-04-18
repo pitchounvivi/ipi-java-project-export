@@ -21,7 +21,5 @@ public class ClientExportCSVService {
         for(Client client:listClients){
             writer.println(client.getNom()+";"+client.getPrenom()+";"+client.getDateNaissance()+";"+client.calculAge() + " ans");
         }
-
     }
-
 }

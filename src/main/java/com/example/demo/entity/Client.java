@@ -71,6 +71,7 @@ public class Client {
 
     //Calcul age
     public Integer calculAge (){
+        // Cette écriture permet de calculer l'âge exacte en fonction de la date du jour actuelle
         return Period.between(this.getDateNaissance(), LocalDate.now()).getYears();
     }
 

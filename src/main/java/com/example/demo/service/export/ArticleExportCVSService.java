@@ -24,9 +24,5 @@ public class ArticleExportCVSService {
             //on vérifie si la description à une ; et on l'échappe pour permettre son affichage dans la même cellule que le texte
             writer.println(String.format("\"%s\";\"%s\";\"%s\"", article.getLibelle(), article.getPrix(), article.getDescription()));
         }
-
-
     }
-
-
 }
